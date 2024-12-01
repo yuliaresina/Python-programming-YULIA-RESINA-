@@ -2,45 +2,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-x_values, y_values, labels = [], [], []
+x, y, labels = [], [], []
 #Equation for the line that divides the points: y = kx + m from given example
 k=-1
 m=0
-line = {'y=-x': (-1,0)}
 
-def classify_data(x, y, k, m):
-  return 1 if y > k * x + m else 0
 
-with open("./unlabelled_data.csv") as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
+def classify_data(x1, y1, k, m):
+  return 1 if y1 > k * x1 + m else 0
+
+with open("./unlabelled_data.csv") as file:
+    csv_reader = csv.reader(file, delimiter=',')
    
     for row in csv_reader:
-        x, y = float(row[0]), float(row[1])
+        x1, y1 = float(row[0]), float(row[1])
          
-        label = classify_data(x, y, k, m)
+        label = classify_data(x1, y1, k, m)
         labels.append(label)
        
-        x_values.append(x)
-        y_values.append(y)
-        data=zip(x_values, y_values, labels)
+        x.append(x1)
+        y.append(y1)
+        data=zip(x, y, labels)
 
-with open("labelled_data.csv", 'w', newline='') as f_write:
-    csv_writer = csv.writer(f_write)
+with open("labelled_data.csv", 'w', newline='') as file:
+    csv_writer = csv.writer(file)
  
     for row in data:
         csv_writer.writerow(row)
 
 #x0, y0-->data with label 0, x1, y1-->data with label 1, xli, yli-->line data
 
-x_values=np.array(x_values)
-y_values=np.array(y_values)
+x=np.array(x)
+y=np.array(y)
 xli = list(range(-4, 5))
 yli = [k * xli + m for xli in xli]
 
-x0= [x_values[i] for i in range(len(x_values)) if labels[i] == 0]
-y0 = [y_values[i] for i in range(len(y_values)) if labels[i] == 0]
-x1 = [x_values[i] for i in range(len(x_values)) if labels[i] == 1]
-y1 = [y_values[i] for i in range(len(y_values)) if labels[i] == 1]
+x0= [x[i] for i in range(len(x)) if labels[i] == 0]
+y0 = [y[i] for i in range(len(y)) if labels[i] == 0]
+x1 = [x[i] for i in range(len(x)) if labels[i] == 1]
+y1 = [y[i] for i in range(len(y)) if labels[i] == 1]
       
 
 
